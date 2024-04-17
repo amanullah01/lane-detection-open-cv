@@ -17,7 +17,6 @@ def draw_lines(image, lines):
 
 
 def region_of_interest(image, region_points):
-
     # We are replacing pixels with 0 (black) - the region we are not interested
     mask = np.zeros_like(image)
 
@@ -26,7 +25,6 @@ def region_of_interest(image, region_points):
 
     masked_image = cv2.bitwise_and(image, mask)
     return masked_image
-
 
 
 def get_detected_lanes(image):
@@ -41,7 +39,7 @@ def get_detected_lanes(image):
     # we are interested about the lower region of the image (There are the driving lanes)
     region_of_interested_vertices = [
         (0, height),
-        (width/2, height*0.65),
+        (width / 2, height * 0.65),
         (width, height)
     ]
 
@@ -50,7 +48,8 @@ def get_detected_lanes(image):
     cropped_image = region_of_interest(canny_image, np.array([region_of_interested_vertices], np.int32))
 
     # use line detection algorithm. (radians instead of degrees. 1 degree = pi/180)
-    lines = cv2.HoughLinesP(cropped_image, rho=2, theta=np.pi/180, threshold=50, lines=np.array([]), minLineLength=40, maxLineGap=150)
+    lines = cv2.HoughLinesP(cropped_image, rho=2, theta=np.pi / 180, threshold=50, lines=np.array([]), minLineLength=40,
+                            maxLineGap=150)
 
     # draw the lines with image
     image_with_lines = draw_lines(image, lines)
